@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/riverpod.dart';
+import 'package:thingsboard_client/thingsboard_client.dart';
 
 import 'package:thingsboard_app/config/routes/v2/redirects/redirect.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_routes.dart';
@@ -37,18 +38,18 @@ final loginPath= isLoginPath(state);
       return '/login${path?.isEmpty == true ? '' : '?redirect=$path'}';
     }
 
-    // if (login.isUserLoaded &&
-    //     ![
-    //       Authority.PRE_VERIFICATION_TOKEN,
-    //       Authority.MFA_CONFIGURATION_TOKEN,
-    //     ].contains(login.userScope) &&
-    //     isLoginPath(state)) {
-    //   final redirect = state.uri.queryParameters['ridirect'];
-    //   if (redirect != null && redirect.isNotEmpty) {
-    //     return redirect;
-    //   }
-    //   return '/home';
-    // }
+    if (login.isUserLoaded &&
+        ![
+          Authority.PRE_VERIFICATION_TOKEN,
+          Authority.MFA_CONFIGURATION_TOKEN,
+        ].contains(login.userScope) &&
+        isLoginPath(state)) {
+      final redirect = state.uri.queryParameters['redirect'];
+      if (redirect != null && redirect.isNotEmpty) {
+        return redirect;
+      }
+      return '/home';
+    }
     return null;
   }
 }

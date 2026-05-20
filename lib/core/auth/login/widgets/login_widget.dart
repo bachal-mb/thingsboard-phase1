@@ -195,11 +195,14 @@ Future<void> onLoginPressed(
   final String password = form.control('password').value.toString();
   try {
     loading.value = true;
-  final res =   await ref.read(loginProvider.notifier).login(username, password);
-    
-    loading.value = res;
+    final res = await ref.read(loginProvider.notifier).login(username, password);
+    if (!res) {
+      form.setErrors({"err": {}});
+    }
   } catch (e) {
     form.setErrors({"err": {}});
+  } finally {
+    loading.value = false;
   }
 }
 

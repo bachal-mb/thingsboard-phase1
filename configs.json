@@ -1,0 +1,12 @@
+{
+  "thingsboardApiEndpoint": "https://thingsboard.cloud",
+  "thingsboardAndroidAppSecret": "d8769e94ac1d74dfaf84563253bf5b4f40ece1bba083758f8d0d21da92ed7d76",
+  "thingsboardIosAppSecret": "",
+  "thingsboardOAuth2CallbackUrlScheme": "com.mehdi.thingsboard.phase1.auth",
+  "androidApplicationId": "com.mehdi.thingsboard.phase1",
+  "androidApplicationName": "Thingsboard app",
+  "appLinksUrlHost": "thingsboard.cloud",
+  "webPathPrefix": "/api/noauth/qr",
+  "appLinksUrlScheme": "https",
+  "navigationType": "bottom"
+}
