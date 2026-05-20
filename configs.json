@@ -1,6 +1,6 @@
 {
   "thingsboardApiEndpoint": "https://thingsboard.cloud",
-  "thingsboardAndroidAppSecret": "d8769e94ac1d74dfaf84563253bf5b4f40ece1bba083758f8d0d21da92ed7d76",
+  "thingsboardAndroidAppSecret": "be214e10f9c357b087619c3dd030ab080c6f4ec88a71c603f0662d74dbd0e174",
   "thingsboardIosAppSecret": "",
   "thingsboardOAuth2CallbackUrlScheme": "com.mehdi.thingsboard.phase1.auth",
   "androidApplicationId": "com.mehdi.thingsboard.phase1",
