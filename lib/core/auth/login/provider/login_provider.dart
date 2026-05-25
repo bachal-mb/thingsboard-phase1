@@ -82,7 +82,7 @@ class Login extends _$Login {
   }
 
   Future<void> loadUser() async {
-    UserMobileInfo? mobileInfo;
+    MobileBasicInfo? mobileInfo;
     User? userInfo;
 
     try {

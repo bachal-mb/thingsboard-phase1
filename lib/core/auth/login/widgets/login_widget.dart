@@ -140,15 +140,12 @@ class LoginWidget extends HookConsumerWidget {
                                         vertical: 12,
                                       ),
                                     ),
-                                    onPressed:
-                                        formGroup.invalid && formGroup.touched
-                                            ? null
-                                            : () async {
+                                    onPressed: () async {
                                               await onLoginPressed(
                                                 context,
                                                 form,
                                                 ref,
-                                                loading
+                                                loading,
                                               );
                                             },
                                     child: Text(
