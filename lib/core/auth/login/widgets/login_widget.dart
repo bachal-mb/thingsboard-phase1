@@ -195,14 +195,24 @@ Future<void> onLoginPressed(
   final String password = form.control('password').value.toString();
   try {
     loading.value = true;
-    final res = await ref.read(loginProvider.notifier).login(username, password);
-    if (!res) {
+    final error = await ref.read(loginProvider.notifier).login(username, password);
+    if (error != null) {
       form.setErrors({"err": {}});
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(error), duration: const Duration(seconds: 5)),
+        );
+      }
     } else if (context.mounted) {
       context.go('/home');
     }
   } catch (e) {
     form.setErrors({"err": {}});
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e'), duration: const Duration(seconds: 5)),
+      );
+    }
   } finally {
     loading.value = false;
   }

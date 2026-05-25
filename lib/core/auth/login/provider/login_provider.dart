@@ -64,19 +64,21 @@ class Login extends _$Login {
     await _onFullyLoggedIn();
   }
 
-  Future<bool> login(String email, String password) async {
+  Future<String?> login(String email, String password) async {
     try {
       await _tbClient.login(LoginRequest(email, password));
-      final user = _tbClient.getAuthUser();
-      if (user != null &&
-          (user.isMfaConfigurationToken() || user.isMfaConfigurationToken())) {
-        return false;
-      }
-      await handleUserLoaded();
     } catch (e) {
-      return false;
+      return 'Login failed: $e';
     }
-    return true;
+    final user = _tbClient.getAuthUser();
+    if (user != null &&
+        (user.isMfaConfigurationToken() || user.isMfaConfigurationToken())) {
+      return null;
+    }
+    try {
+      await handleUserLoaded();
+    } catch (_) {}
+    return null;
   }
 
   Future<void> loadUser() async {
