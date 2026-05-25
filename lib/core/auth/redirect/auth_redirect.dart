@@ -9,6 +9,8 @@ import 'package:thingsboard_app/config/routes/v2/routes_config/routes/login_rout
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/noauth_routes.dart';
 import 'package:thingsboard_app/config/routes/v2/routes_config/routes/ui_utils_routes.dart';
 import 'package:thingsboard_app/core/auth/login/provider/login_provider.dart';
+import 'package:thingsboard_app/locator.dart';
+import 'package:thingsboard_app/utils/services/tb_client_service/i_tb_client_service.dart';
 
 bool isLoginPath(GoRouterState state) {
   return state.uri.pathSegments.contains('login');
@@ -23,6 +25,8 @@ class AuthRedirect implements Redirect {
   ) async {
     final login = ref.read(loginProvider);
     final path = state.fullPath;
+    final client = getIt<ITbClientService>().client;
+    final isAuthenticated = client.isAuthenticated();
 
     if (path == LoginRoutes.login + LoginRoutes.mfaConfigure) {
       return null;
@@ -33,21 +37,12 @@ class AuthRedirect implements Redirect {
     if (path == noAuthPath) {
       return null;
     }
-final loginPath= isLoginPath(state);
-    if (!login.isUserLoaded && !loginPath) {
+    final loginPath = isLoginPath(state);
+    if (!isAuthenticated && !loginPath) {
       return '/login${path?.isEmpty == true ? '' : '?redirect=$path'}';
     }
 
-    if (login.isUserLoaded &&
-        ![
-          Authority.PRE_VERIFICATION_TOKEN,
-          Authority.MFA_CONFIGURATION_TOKEN,
-        ].contains(login.userScope) &&
-        isLoginPath(state)) {
-      final redirect = state.uri.queryParameters['redirect'];
-      if (redirect != null && redirect.isNotEmpty) {
-        return redirect;
-      }
+    if (isAuthenticated && isLoginPath(state)) {
       return '/home';
     }
     return null;

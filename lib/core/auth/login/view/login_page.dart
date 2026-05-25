@@ -43,12 +43,9 @@ class LoginPage extends HookConsumerWidget {
     final client = getIt<ITbClientService>().client;
     final user = client.getAuthUser();
 
-    if (user != null &&
-        (!user.isMfaConfigurationToken() || !user.isPreVerificationToken())) {
+    if (user != null && !loginState.isUserLoaded) {
       isUserLoading.value = true;
-    }
-    if (user != null &&
-        (user.isMfaConfigurationToken() || user.isPreVerificationToken())) {
+    } else {
       isUserLoading.value = false;
     }
   }

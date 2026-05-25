@@ -82,12 +82,15 @@ class Login extends _$Login {
   }
 
   Future<void> loadUser() async {
-    final mobileInfo = await _tbClient.getMobileService().getUserMobileInfo(
-      MobileInfoQuery(
-        platformType: _deviceInfoService.getPlatformType(),
-        packageName: _deviceInfoService.getApplicationId(),
-      ),
-    );
+    UserMobileInfo? mobileInfo;
+    try {
+      mobileInfo = await _tbClient.getMobileService().getUserMobileInfo(
+        MobileInfoQuery(
+          platformType: _deviceInfoService.getPlatformType(),
+          packageName: _deviceInfoService.getApplicationId(),
+        ),
+      );
+    } catch (_) {}
 
     final userInfo = await _tbClient.getUserService().getUser();
     final lang = userInfo.additionalInfo?['lang'];
