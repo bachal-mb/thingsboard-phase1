@@ -198,6 +198,8 @@ Future<void> onLoginPressed(
     final res = await ref.read(loginProvider.notifier).login(username, password);
     if (!res) {
       form.setErrors({"err": {}});
+    } else if (context.mounted) {
+      context.go('/home');
     }
   } catch (e) {
     form.setErrors({"err": {}});
