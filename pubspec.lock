@@ -2238,10 +2238,9 @@ packages:
   thingsboard_client:
     dependency: "direct main"
     description:
-      name: thingsboard_client
-      sha256: "6d5bf839593791f8130ce00e0cb2f4d8f3335f321172ceb84291847fc877735e"
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/thingsboard_client"
+      relative: true
+    source: path
     version: "4.2.1"
   time:
     dependency: transitive
