@@ -203,8 +203,6 @@ Future<void> onLoginPressed(
           SnackBar(content: Text(error), duration: const Duration(seconds: 5)),
         );
       }
-    } else if (context.mounted) {
-      context.go('/home');
     }
   } catch (e) {
     form.setErrors({"err": {}});

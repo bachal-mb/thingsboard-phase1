@@ -83,6 +83,8 @@ class Login extends _$Login {
 
   Future<void> loadUser() async {
     UserMobileInfo? mobileInfo;
+    User? userInfo;
+
     try {
       mobileInfo = await _tbClient.getMobileService().getUserMobileInfo(
         MobileInfoQuery(
@@ -92,18 +94,19 @@ class Login extends _$Login {
       );
     } catch (_) {}
 
-    final userInfo = await _tbClient.getUserService().getUser();
-    final lang = userInfo.additionalInfo?['lang'];
-    final locale = S.delegate.supportedLocales.firstWhereOrNull(
-      (l) => l.toString() == lang.toString().split('_')[0],
-    );
-
-    await S.load(locale ?? const Locale('en'));
+    try {
+      userInfo = await _tbClient.getUserService().getUser();
+      final lang = userInfo.additionalInfo?['lang'];
+      final locale = S.delegate.supportedLocales.firstWhereOrNull(
+        (l) => l.toString() == lang.toString().split('_')[0],
+      );
+      await S.load(locale ?? const Locale('en'));
+    } catch (_) {}
 
     state = state.copyWith(
       isUserLoaded: true,
       user: userInfo,
-      userScope: userInfo.authority,
+      userScope: userInfo?.authority ?? _tbClient.getAuthUser()?.authority,
       mobileLoginInfo: mobileInfo,
     );
   }
